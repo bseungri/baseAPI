@@ -25,6 +25,7 @@ public class LoginController {
 		return loginService.Login(user);
 	}
 	
+	//test 
 	@PostMapping("/checkLogin")
 	public String GetUser(@RequestBody LoginVO token) throws Exception{
 		// JwtCheckFilter will handle this..
