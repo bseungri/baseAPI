@@ -57,4 +57,28 @@ public class UserController {
 		return list;
 	}
 	
+	@PostMapping("/getSampleTableData")
+	public Map<String, Object> GetSampleTableData(@RequestBody HashMap<String, Object> params) throws Exception{
+		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> map;
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		for(int i = 0; i < (int) params.get("rowsPerPage"); i++) {
+			double dValue = Math.random();
+			int iValue = (int)(dValue * 10);
+			map = new HashMap<String, Object>();
+			map.put("seq", i);
+			map.put("name", iValue + "홍길동");
+			map.put("loanSeqNo", iValue * iValue * iValue * i);
+			map.put("contStat", iValue % 2 == 0 ? "계약중" : "계약만료");
+			
+			list.add(map);
+		}
+		
+		result.put("list", list);
+		result.put("allItemCount", 100);
+		
+		return result;
+	}
+	
 }
+
