@@ -66,7 +66,7 @@ public class UserController {
 			double dValue = Math.random();
 			int iValue = (int)(dValue * 10);
 			map = new HashMap<String, Object>();
-			map.put("seq", i);
+			map.put("seq", i + ( ((int) params.get("page")) * (int) params.get("rowsPerPage") ));
 			map.put("name", iValue + "홍길동");
 			map.put("loanSeqNo", iValue * iValue * iValue * i);
 			map.put("contStat", iValue % 2 == 0 ? "계약중" : "계약만료");
