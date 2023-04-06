@@ -3,6 +3,7 @@ server:
 logging:
   level:
     root: INFO
+    com.foresys: DEBUG
 springdoc:
   api-docs:
     path: /api-docs
@@ -14,7 +15,8 @@ props:
     test/*, 
     api-docs/*, 
     swagger-ui/*,
-    user/*
+    user/*,
+    error/*
   uri-prefix: "/api/"
   aTokenTime: 60000 # 1분
   rTokenTime: 1800000 # 30분

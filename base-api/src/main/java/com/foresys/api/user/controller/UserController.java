@@ -1,17 +1,24 @@
 package com.foresys.api.user.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foresys.api.user.model.User;
 import com.foresys.api.user.service.UserService;
 
@@ -78,6 +85,31 @@ public class UserController {
 		result.put("allItemCount", 100);
 		
 		return result;
+	}
+	
+	@RequestMapping(path = "/sampleFileUpload", method = RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public String SampleFileUpload(@RequestParam("params") String paramJson, @RequestPart("files") List<MultipartFile> files) throws Exception{
+		// 파일 저장 테스트시, STS를 관리자권한으로 실행해 주시길 바랍니다.
+		ObjectMapper mapper = new ObjectMapper();
+		
+		@SuppressWarnings("unchecked")
+		HashMap<String, Object> params = mapper.readValue(paramJson, HashMap.class);
+		String pathName = (String) params.get("pathName");
+		File directory = new File(pathName);
+	    if (! directory.exists()){
+	        directory.mkdir();
+	    }
+		
+		try {
+			for(MultipartFile file : files) {
+				file.transferTo(new File(pathName + file.getOriginalFilename()));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
+		
+		return "success";
 	}
 	
 }

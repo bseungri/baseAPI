@@ -65,6 +65,9 @@ public class JwtCheckFilter extends OncePerRequestFilter {
 							token = jwtUtil.createAccessToken(id, "");
 							
 							response.setHeader("X-AUTH-ATOKEN", token);
+							
+							token = jwtUtil.createRefreshToken(id, "");
+							response.setHeader("X-AUTH-RTOKEN", token);
 							filterChain.doFilter(request, response);
 						} else {
 							// rToken is expired
